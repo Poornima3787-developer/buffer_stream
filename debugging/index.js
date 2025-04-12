@@ -12,6 +12,14 @@ let users=[
 app.get("/users",(req,res)=>{
   res.json(users);
 })
+app.get("/users/:id",(req,res)=>{
+  const userId=parseInt(req.params.id);
+  const user=users.find(u=>u.id===userId);
+  if(!user){
+    return res.status(404).json({message:'user not found'});
+  }
+  res.json(user);
+})
 app.post("/users",(req,res)=>{
   const {name}=req.body;
   const newUser={id:users.length+1,name};
@@ -19,5 +27,5 @@ app.post("/users",(req,res)=>{
   res.status(201).json(newUser);
 })
 app.listen(PORT,()=>{
-  console.log("Server is running")
+  console.log(`Server is running at http://localhost:${PORT}`)
 });
